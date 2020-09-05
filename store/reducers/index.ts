@@ -24,5 +24,5 @@ export type RootState = {
 
 export default combineReducers({
   auth,
-  routerReducer,
+  router: routerReducer,
 });

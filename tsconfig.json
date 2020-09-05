@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ES2019",
     "module": "esnext",
     "jsx": "preserve",
     "allowJs": true,
@@ -27,6 +27,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.config.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next.config.js",
+    "jest.config.js",
+    "__mocks__/setupTests.js"
+  ],
   "exclude": ["node_modules"]
 }

@@ -1,19 +1,19 @@
 import BasicLayout from "../components/layouts/BasicLayout";
 import React, { FC } from "react";
 import { AppProps } from "next/app";
-import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-next-router";
 import { wrapper, store } from "store";
+import { Provider } from "react-redux";
 
 const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <BasicLayout>
+    <Provider store={store}>
       <ConnectedRouter>
-        <Provider store={store}>
+        <BasicLayout>
           <Component {...pageProps} />
-        </Provider>
+        </BasicLayout>
       </ConnectedRouter>
-    </BasicLayout>
+    </Provider>
   );
 };
 

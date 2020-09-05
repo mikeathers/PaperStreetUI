@@ -5,7 +5,7 @@ module.exports = {
   },
   testMatch: ["**/__tests__/*.(ts|tsx)"],
   moduleDirectories: ["node_modules", "bower_components", "src"],
-  setupFilesAfterEnv: ["<rootDir>/tests/setupTests.ts"],
+  setupFilesAfterEnv: ["<rootDir>/__mocks__/setupTests.ts"],
   testPathIgnorePatterns: ["./.next/", "./node_modules/"],
   moduleNameMapper: {
     "^components(.*)$": "<rootDir>/components$1",

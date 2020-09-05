@@ -1,12 +1,16 @@
 import React, { FC } from "react";
-import { useDispatch } from "react-redux";
+import { register, blah } from "store/actions";
 
+const deets = { email: "", password: "", displayName: "" };
 const Register: FC = () => {
-  const dispatch = useDispatch();
-
   return (
     <div>
-      <button onClick={() => dispatch({ type: "REGISTER", payload: 1 })}>
+      <button
+        onClick={() => {
+          blah();
+          register(deets);
+        }}
+      >
         test
       </button>
     </div>

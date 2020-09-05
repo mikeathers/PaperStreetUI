@@ -1,9 +1,11 @@
 import * as types from "../types";
-import { Dispatch } from "redux";
 import { UserActionTypes } from "../types";
 import { IUserFormValues, IUser } from "models/user";
-import { ErrorHandler, Router } from "../../services";
-import { User } from "../../api";
+import { ErrorHandler, Router } from "services";
+import { User } from "services/api";
+import { store } from "store";
+
+const _dispatch = store.dispatch;
 
 const registerRequest = (): UserActionTypes => ({
   type: types.REGISTER_REQUEST,
@@ -21,23 +23,29 @@ const registerFailed = (error: string): UserActionTypes => {
   };
 };
 
-const register = (userDetails: IUserFormValues) => async (
-  dispatch: Dispatch
-) => {
+const blah = () => {
+  console.log("hey");
+  Router.pushToLogin();
+  _dispatch(registerRequest());
+};
+
+const register = async (userDetails: IUserFormValues) => {
   try {
-    dispatch(registerRequest());
+    _dispatch(registerRequest());
     const response = await User.register(userDetails);
-    dispatch(registerSuccessful(response.data));
+    _dispatch(registerSuccessful(response.data));
     Router.pushToHome();
   } catch (error) {
-    const handledResponse = await ErrorHandler.handleHttpError(
-      error,
-      dispatch,
-      registerFailed
-    );
-    if (handledResponse.status === 200)
-      dispatch(registerSuccessful(handledResponse.data));
+    try {
+      const handledResponse = await ErrorHandler.handleHttpError(
+        error,
+        _dispatch,
+        registerFailed
+      );
+      if (handledResponse.status === 200)
+        _dispatch(registerSuccessful(handledResponse.data));
+    } catch {}
   }
 };
 
-export { register, registerRequest, registerFailed, registerSuccessful };
+export { blah, register, registerRequest, registerFailed, registerSuccessful };

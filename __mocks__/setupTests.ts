@@ -1,8 +1,5 @@
-export const localStorageMock = () => {
-  let store = {
-    jwt: "",
-    refreshToken: "",
-  };
+export const localStorageMock = (() => {
+  let store = {};
   return {
     getItem(key: string | number) {
       return store[key];
@@ -11,15 +8,12 @@ export const localStorageMock = () => {
       store[key] = value.toString();
     },
     clear() {
-      store = {
-        jwt: "",
-        refreshToken: "",
-      };
+      store = {};
     },
     removeItem(key: string | number) {
       delete store[key];
     },
   };
-};
+})();
 
-//Object.defineProperty(window, "localStorage", { value: localStorageMock });
+Object.defineProperty(window, "localStorage", { value: localStorageMock });

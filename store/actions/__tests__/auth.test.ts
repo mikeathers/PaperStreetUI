@@ -5,12 +5,15 @@ import {
   registerFailed,
 } from "..";
 
-import { User } from "api";
+import { User } from "services/api";
 import { Router, ErrorHandler } from "services";
+import { store } from "store";
+
+jest.mock("services/router.service");
+jest.mock("services/errorHandler.service");
+jest.mock("store");
 
 describe("User actions", () => {
-  const dispatch = jest.fn();
-
   describe("Register", () => {
     const userRegisterDetails = {
       email: "test@test.com",
@@ -38,12 +41,12 @@ describe("User actions", () => {
       });
 
       it("should dispatch a register request action", async () => {
-        await register(userRegisterDetails)(dispatch);
-        expect(dispatch).toHaveBeenCalledWith(registerRequest());
+        await register(userRegisterDetails);
+        expect(store.dispatch).toHaveBeenCalledWith(registerRequest());
       });
 
-      it("should call User.register", async () => {
-        await register(userRegisterDetails)(dispatch);
+      it("should call User.register", () => {
+        register(userRegisterDetails);
         expect(User.register).toBeCalled();
       });
     });
@@ -54,16 +57,15 @@ describe("User actions", () => {
       });
 
       it("should dispatch register success action", async () => {
-        await register(userRegisterDetails)(dispatch);
-        expect(dispatch).toHaveBeenLastCalledWith(
+        await register(userRegisterDetails);
+        expect(store.dispatch).toHaveBeenLastCalledWith(
           registerSuccessful(mockedSuccessResponse.data)
         );
       });
 
-      it("should push to the dashbaord page", async () => {
-        const pushToHomeSpy = jest.spyOn(Router, "pushToHome");
-        await register(userRegisterDetails)(dispatch);
-        expect(pushToHomeSpy).toHaveBeenCalled();
+      it("should push to the dashbaord page", () => {
+        register(userRegisterDetails);
+        expect(Router.pushToHome).toHaveBeenCalled();
       });
     });
 
@@ -83,14 +85,14 @@ describe("User actions", () => {
         jest.spyOn(User, "register").mockRejectedValue(mockedErrorResponse);
       });
 
-      it("should call handleHttpError", async () => {
+      it("should call handleHttpError", () => {
         const handleHttpErrorSpy = jest.spyOn(ErrorHandler, "handleHttpError");
         try {
-          await register(userRegisterDetails)(dispatch);
+          register(userRegisterDetails);
         } catch {
           expect(handleHttpErrorSpy).toHaveBeenCalledWith(
             mockedErrorResponse,
-            dispatch,
+            store.dispatch,
             registerFailed
           );
         }

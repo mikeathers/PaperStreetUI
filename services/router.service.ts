@@ -1,18 +1,21 @@
 import { push } from "connected-next-router";
 import { routes } from "./constants";
+import { store } from "store";
 
 class Router {
-  constructor() {}
-
-  pushToHome() {
-    push(routes.HOME);
+  dispatch: any;
+  constructor() {
+    this.dispatch = store.dispatch;
   }
-  pushToPageNotFound() {
-    push(routes.NOT_FOUND);
-  }
-  pushToLogin() {
-    push(routes.LOGIN);
-  }
+  pushToHome = () => {
+    this.dispatch(push(routes.HOME));
+  };
+  pushToPageNotFound = () => {
+    this.dispatch(push(routes.NOT_FOUND));
+  };
+  pushToLogin = () => {
+    this.dispatch(push(routes.LOGIN));
+  };
 }
 
 export default new Router();

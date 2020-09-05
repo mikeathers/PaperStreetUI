@@ -22,7 +22,7 @@ export const initialState: IAuthState = {
   requestInProgress: false,
 };
 
-export default (state = initialState, action: AnyAction) => {
+const authReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case types.REGISTER_REQUEST:
       return {
@@ -55,3 +55,5 @@ export default (state = initialState, action: AnyAction) => {
       return state;
   }
 };
+
+export default authReducer;

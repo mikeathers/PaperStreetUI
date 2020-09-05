@@ -1,6 +1,6 @@
 import { ErrorHandler } from "../";
 import { errorMessages } from "../constants";
-import { User } from "api";
+import { User } from "services/api";
 import { Router } from "../";
 
 describe("Error Handler Service", () => {
