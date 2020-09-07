@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import { IUserFormValues } from "models/user";
 import { AUTHENTICATION } from "./endpoints";
 import { ApiService } from ".";
-import { setAuthToken } from "./helpers";
+import TokenService from "./token.service";
 
 class User {
   apiService: ApiService;
@@ -24,7 +24,7 @@ class User {
       token,
       refreshToken,
     });
-    setAuthToken(res.data);
+    TokenService.setAuthToken(res.data);
     return res.data.token;
   };
 }

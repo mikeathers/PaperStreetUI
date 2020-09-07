@@ -4,6 +4,7 @@ import { IUserFormValues, IUser } from "models/user";
 import { ErrorHandler, Router } from "services";
 import { User } from "services/api";
 import { store } from "store";
+import { errorMessages } from "shared/constants";
 
 const _dispatch = store.dispatch;
 
@@ -42,9 +43,12 @@ const register = async (userDetails: IUserFormValues) => {
         _dispatch,
         registerFailed
       );
-      if (handledResponse.status === 200)
+      if (handledResponse.status === 200) {
         _dispatch(registerSuccessful(handledResponse.data));
-    } catch {}
+      }
+    } catch {
+      registerFailed(errorMessages.CATASTROPHIC_ERROR_MESSAGE);
+    }
   }
 };
 

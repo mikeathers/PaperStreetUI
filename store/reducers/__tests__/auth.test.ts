@@ -1,4 +1,4 @@
-import authReducer, { initialState } from "../auth";
+import authReducer, { authInitialState } from "../auth";
 import * as types from "../../types";
 
 describe("User Reducer", () => {
@@ -8,9 +8,9 @@ describe("User Reducer", () => {
         type: types.REGISTER_REQUEST,
       };
 
-      const result = authReducer(initialState, registerRequestAction);
+      const result = authReducer(authInitialState, registerRequestAction);
 
-      expect(result).toEqual({ ...initialState, requestInProgress: true });
+      expect(result).toEqual({ ...authInitialState, requestInProgress: true });
     });
 
     it("should reduce the state by REGISTER_SUCCESS action type", () => {
@@ -27,10 +27,10 @@ describe("User Reducer", () => {
         payload: user,
       };
 
-      const result = authReducer(initialState, registerSuccessAction);
+      const result = authReducer(authInitialState, registerSuccessAction);
 
       expect(result).toEqual({
-        ...initialState,
+        ...authInitialState,
         user,
       });
     });
@@ -43,10 +43,10 @@ describe("User Reducer", () => {
         payload: errorMessage,
       };
 
-      const result = authReducer(initialState, registerFailedAction);
+      const result = authReducer(authInitialState, registerFailedAction);
 
       expect(result).toEqual({
-        ...initialState,
+        ...authInitialState,
         error: true,
         errorMessage,
       });

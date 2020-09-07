@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { getEndpoint } from "./endpoints";
-import { setAuthHeaders } from "./helpers";
+import TokenService from "./token.service";
 
 class ApiService {
   agent: any;
@@ -26,7 +26,7 @@ class ApiService {
         method: "GET",
         url: path,
         responseType: "json",
-        headers: setAuthHeaders(this.defaultHeaders, authRequired),
+        headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response);
   }
@@ -38,7 +38,7 @@ class ApiService {
         url: path,
         responseType: "json",
         data: payload,
-        headers: setAuthHeaders(this.defaultHeaders, authRequired),
+        headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response);
   }
@@ -46,11 +46,11 @@ class ApiService {
   put(path: String, payload: Object, authRequired: boolean = false) {
     return this.agent
       .request({
-        method: "PATCH",
+        method: "PUT",
         url: path,
         responseType: "json",
         data: payload,
-        headers: setAuthHeaders(this.defaultHeaders, authRequired),
+        headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response);
   }
@@ -62,7 +62,7 @@ class ApiService {
         url: path,
         responseType: "json",
         data: payload,
-        headers: setAuthHeaders(this.defaultHeaders, authRequired),
+        headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response);
   }
@@ -73,7 +73,7 @@ class ApiService {
         method: "DELETE",
         url: path,
         responseType: "json",
-        headers: setAuthHeaders(this.defaultHeaders, authRequired),
+        headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response);
   }

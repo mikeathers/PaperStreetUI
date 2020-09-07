@@ -1,7 +1,12 @@
 import React, { FC } from "react";
 import { register, blah } from "store/actions";
 
-const deets = { email: "", password: "", displayName: "" };
+const deets = {
+  email: "athers_05@hotmail.co.uk",
+  password: "Password123!",
+  firstName: "Mike",
+  lastName: "Atehrton",
+};
 const Register: FC = () => {
   return (
     <div>

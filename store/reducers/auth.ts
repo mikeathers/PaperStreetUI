@@ -9,7 +9,7 @@ export interface IAuthState {
   requestInProgress: boolean;
 }
 
-export const initialState: IAuthState = {
+export const authInitialState: IAuthState = {
   user: {
     displayName: "",
     token: "",
@@ -22,7 +22,7 @@ export const initialState: IAuthState = {
   requestInProgress: false,
 };
 
-const authReducer = (state = initialState, action: AnyAction) => {
+const authReducer = (state = authInitialState, action: AnyAction) => {
   switch (action.type) {
     case types.REGISTER_REQUEST:
       return {
@@ -34,7 +34,7 @@ const authReducer = (state = initialState, action: AnyAction) => {
     case types.REGISTER_SUCCESS:
       return {
         ...state,
-        user: action.payload,
+        user: { ...action.payload, isAuthenticated: true },
         requestInProgress: false,
         error: false,
         errorMessage: "",
@@ -42,7 +42,7 @@ const authReducer = (state = initialState, action: AnyAction) => {
     case types.REGISTER_FAILED:
       return {
         ...state,
-        user: initialState.user,
+        user: authInitialState.user,
         requestInProgress: false,
         error: true,
         errorMessage: action.payload,
@@ -50,7 +50,7 @@ const authReducer = (state = initialState, action: AnyAction) => {
     case types.LOGIN:
       return { ...state, user: action.payload };
     case types.LOGOUT:
-      return { ...initialState };
+      return { ...authInitialState };
     default:
       return state;
   }

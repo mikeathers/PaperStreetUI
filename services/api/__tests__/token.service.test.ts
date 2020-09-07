@@ -1,14 +1,18 @@
 import TokenService from "../token.service";
 
 describe("Token Service", () => {
+  let tokenService;
   const tokenData = {
     token: "101010",
     refreshToken: "202020",
   };
+
+  beforeEach(() => {
+    tokenService = TokenService;
+  });
+
   describe("setAuthToken", () => {
     it("should set tokens in localStorage", () => {
-      const tokenService = new TokenService();
-
       tokenService.setAuthToken(tokenData);
 
       expect(window.localStorage.getItem("jwt")).toEqual(tokenData.token);
@@ -20,8 +24,6 @@ describe("Token Service", () => {
 
   describe("getAuthToken", () => {
     it("should get tokens from localStorage", () => {
-      const tokenService = new TokenService();
-
       const { jwt, refreshToken } = tokenService.getAuthToken();
 
       expect(jwt).not.toBeNull();
@@ -31,8 +33,6 @@ describe("Token Service", () => {
 
   describe("removeAuthToken", () => {
     it("should remove tokens from localStorage", () => {
-      const tokenService = new TokenService();
-
       tokenService.removeAuthToken();
 
       expect(window.localStorage.getItem("jwt")).toBeUndefined();
@@ -42,7 +42,6 @@ describe("Token Service", () => {
 
   describe("setAuthHeaders", () => {
     it("should return auth header when authRequired is true", () => {
-      const tokenService = new TokenService();
       const authRequired = true;
       const defaultHeaders = {
         Accept: "application/json",
@@ -54,7 +53,6 @@ describe("Token Service", () => {
     });
 
     it("should not return auth header when authRequired is false", () => {
-      const tokenService = new TokenService();
       const authRequired = false;
       const defaultHeaders = {
         Accept: "application/json",

@@ -1,5 +1,5 @@
 import { push } from "connected-next-router";
-import { routes } from "./constants";
+import { routes } from "shared/constants";
 import { store } from "store";
 
 class Router {
