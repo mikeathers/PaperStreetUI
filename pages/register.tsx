@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { register, blah } from "store/actions";
+import { blah, test } from "store/actions";
 
 const deets = {
   email: "athers_05@hotmail.co.uk",
@@ -11,9 +11,15 @@ const Register: FC = () => {
   return (
     <div>
       <button
-        onClick={() => {
-          blah();
-          register(deets);
+        onClick={async () => {
+          await blah();
+        }}
+      >
+        login
+      </button>
+      <button
+        onClick={async () => {
+          await test();
         }}
       >
         test

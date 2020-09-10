@@ -10,7 +10,12 @@ describe("User Reducer", () => {
 
       const result = authReducer(authInitialState, registerRequestAction);
 
-      expect(result).toEqual({ ...authInitialState, requestInProgress: true });
+      expect(result).toEqual({
+        ...authInitialState,
+        requestInProgress: true,
+        error: false,
+        errorMessages: [],
+      });
     });
 
     it("should reduce the state by REGISTER_SUCCESS action type", () => {
@@ -36,11 +41,11 @@ describe("User Reducer", () => {
     });
 
     it("should reduce the state by REGISTER_FAILED action type", () => {
-      const errorMessage = "Request failed";
+      const errorMessages = ["Request failed"];
 
       const registerFailedAction = {
         type: types.REGISTER_FAILED,
-        payload: errorMessage,
+        payload: errorMessages,
       };
 
       const result = authReducer(authInitialState, registerFailedAction);
@@ -48,7 +53,24 @@ describe("User Reducer", () => {
       expect(result).toEqual({
         ...authInitialState,
         error: true,
-        errorMessage,
+        errorMessages,
+      });
+    });
+  });
+
+  describe("Login", () => {
+    it("should reduce the state by LOGIN_REQUEST action type", () => {
+      const loginRequestAction = {
+        type: types.LOGIN_REQUEST,
+      };
+
+      const result = authReducer(authInitialState, loginRequestAction);
+
+      expect(result).toEqual({
+        ...authInitialState,
+        requestInProgress: true,
+        error: false,
+        errorMessages: [],
       });
     });
   });

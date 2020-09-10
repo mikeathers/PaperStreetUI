@@ -4,7 +4,7 @@ import * as types from "../types";
 
 export interface IAuthState {
   user: IUser;
-  errorMessage: string;
+  errorMessages: [];
   error: boolean;
   requestInProgress: boolean;
 }
@@ -17,7 +17,7 @@ export const authInitialState: IAuthState = {
     image: "",
     isAuthenticated: false,
   },
-  errorMessage: "",
+  errorMessages: [],
   error: false,
   requestInProgress: false,
 };
@@ -29,7 +29,7 @@ const authReducer = (state = authInitialState, action: AnyAction) => {
         ...state,
         requestInProgress: true,
         error: false,
-        errorMessage: "",
+        errorMessages: [],
       };
     case types.REGISTER_SUCCESS:
       return {
@@ -37,7 +37,7 @@ const authReducer = (state = authInitialState, action: AnyAction) => {
         user: { ...action.payload, isAuthenticated: true },
         requestInProgress: false,
         error: false,
-        errorMessage: "",
+        errorMessages: [],
       };
     case types.REGISTER_FAILED:
       return {
@@ -45,11 +45,16 @@ const authReducer = (state = authInitialState, action: AnyAction) => {
         user: authInitialState.user,
         requestInProgress: false,
         error: true,
-        errorMessage: action.payload,
+        errorMessages: action.payload,
       };
-    case types.LOGIN:
-      return { ...state, user: action.payload };
-    case types.LOGOUT:
+    case types.LOGIN_REQUEST:
+      return {
+        ...state,
+        requestInProgress: true,
+        error: false,
+        errorMessages: [],
+      };
+    case types.LOGOUT_REQUEST:
       return { ...authInitialState };
     default:
       return state;

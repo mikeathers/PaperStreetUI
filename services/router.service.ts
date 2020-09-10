@@ -2,7 +2,7 @@ import { push } from "connected-next-router";
 import { routes } from "shared/constants";
 import { store } from "store";
 
-class Router {
+class RouterService {
   dispatch: any;
   constructor() {
     this.dispatch = store.dispatch;
@@ -18,4 +18,4 @@ class Router {
   };
 }
 
-export default new Router();
+export default new RouterService();

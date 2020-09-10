@@ -5,8 +5,8 @@ import {
   registerFailed,
 } from "..";
 
-import { User } from "services/api";
-import { Router, ErrorHandler } from "services";
+import { UserService } from "services/api";
+import { RouterService, ErrorHandlerService } from "services";
 import { store } from "store";
 
 jest.mock("services/router.service");
@@ -37,7 +37,9 @@ describe("User actions", () => {
 
     describe("Register Request", () => {
       beforeEach(() => {
-        jest.spyOn(User, "register").mockResolvedValue(mockedSuccessResponse);
+        jest
+          .spyOn(UserService, "register")
+          .mockResolvedValue(mockedSuccessResponse);
       });
 
       it("should dispatch a register request action", async () => {
@@ -47,13 +49,15 @@ describe("User actions", () => {
 
       it("should call User.register", () => {
         register(userRegisterDetails);
-        expect(User.register).toBeCalled();
+        expect(UserService.register).toBeCalled();
       });
     });
 
     describe("Register Success", () => {
       beforeEach(() => {
-        jest.spyOn(User, "register").mockResolvedValue(mockedSuccessResponse);
+        jest
+          .spyOn(UserService, "register")
+          .mockResolvedValue(mockedSuccessResponse);
       });
 
       it("should dispatch register success action", async () => {
@@ -65,7 +69,7 @@ describe("User actions", () => {
 
       it("should push to the dashbaord page", () => {
         register(userRegisterDetails);
-        expect(Router.pushToHome).toHaveBeenCalled();
+        expect(RouterService.pushToHome).toHaveBeenCalled();
       });
     });
 
@@ -82,11 +86,16 @@ describe("User actions", () => {
       };
 
       beforeEach(() => {
-        jest.spyOn(User, "register").mockRejectedValue(mockedErrorResponse);
+        jest
+          .spyOn(UserService, "register")
+          .mockRejectedValue(mockedErrorResponse);
       });
 
       it("should call handleHttpError", () => {
-        const handleHttpErrorSpy = jest.spyOn(ErrorHandler, "handleHttpError");
+        const handleHttpErrorSpy = jest.spyOn(
+          ErrorHandlerService,
+          "handleHttpError"
+        );
         try {
           register(userRegisterDetails);
         } catch {

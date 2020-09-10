@@ -13,6 +13,7 @@ import {
   initialRouterState,
 } from "connected-next-router";
 import Router from "next/router";
+
 import rootReducer, { RootState } from "./reducers";
 import { authInitialState } from "./reducers/auth";
 import { AppContext } from "next/app";
@@ -66,6 +67,7 @@ export const initStore: MakeStore<RootState> = (context: Context) => {
   if (asPath) {
     const url = format({ pathname, query });
     initialState = {
+      auth: authInitialState,
       router: initialRouterState(url, asPath),
     };
   }

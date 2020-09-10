@@ -1,9 +1,10 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosError, AxiosInstance } from "axios";
 import { getEndpoint } from "./endpoints";
-import TokenService from "./token.service";
+import TokenService from "../token.service";
+import { RouterService } from "services";
 
 class ApiService {
-  agent: any;
+  agent: AxiosInstance;
   defaultHeaders: { Accept: string; "Content-Type": string };
 
   constructor(microservice: string) {
@@ -16,11 +17,45 @@ class ApiService {
       headers: defaultHeaders,
     });
 
+    agent.interceptors.response.use(undefined, async (error) => {
+      const originalRequest = error.config;
+      const { status } = error.response;
+
+      if (status === 401 && originalRequest.url.endsWith("refresh")) {
+        TokenService.removeAuthToken();
+
+        RouterService.pushToLogin();
+
+        return Promise.reject(error);
+      }
+
+      if (status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
+        const { jwt: oldJwt, refreshToken } = TokenService.getAuthToken();
+
+        const res = await this.agent.post(`/authentication/refresh`, {
+          oldJwt,
+          refreshToken,
+        });
+
+        TokenService.setAuthToken(res!.data);
+
+        const { jwt } = TokenService.getAuthToken();
+
+        originalRequest.headers.Authorization = "Bearer " + jwt;
+
+        return agent(originalRequest);
+      }
+
+      return error.response;
+    });
+
     this.agent = agent;
     this.defaultHeaders = defaultHeaders;
   }
 
-  get(path: String, authRequired: boolean = false) {
+  get(path: string, authRequired: boolean = false) {
     return this.agent
       .request({
         method: "GET",
@@ -28,10 +63,11 @@ class ApiService {
         responseType: "json",
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
-      .then((response: AxiosResponse) => response);
+      .then((response: AxiosResponse) => response)
+      .catch((err: AxiosError) => err.response);
   }
 
-  patch(path: String, payload: Object, authRequired: boolean = false) {
+  patch(path: string, payload: Object, authRequired: boolean = false) {
     return this.agent
       .request({
         method: "PATCH",
@@ -40,10 +76,11 @@ class ApiService {
         data: payload,
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
-      .then((response: AxiosResponse) => response);
+      .then((response: AxiosResponse) => response)
+      .catch((err: AxiosError) => err.response);
   }
 
-  put(path: String, payload: Object, authRequired: boolean = false) {
+  put(path: string, payload: Object, authRequired: boolean = false) {
     return this.agent
       .request({
         method: "PUT",
@@ -52,10 +89,11 @@ class ApiService {
         data: payload,
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
-      .then((response: AxiosResponse) => response);
+      .then((response: AxiosResponse) => response)
+      .catch((err: AxiosError) => err.response);
   }
 
-  post(path: String, payload: Object, authRequired: boolean = false) {
+  post(path: string, payload: Object, authRequired: boolean = false) {
     return this.agent
       .request({
         method: "POST",
@@ -64,10 +102,11 @@ class ApiService {
         data: payload,
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
-      .then((response: AxiosResponse) => response);
+      .then((response: AxiosResponse) => response)
+      .catch((err: AxiosError) => err.response);
   }
 
-  del(path: String, authRequired: boolean = false) {
+  del(path: string, authRequired: boolean = false) {
     return this.agent
       .request({
         method: "DELETE",
@@ -75,7 +114,8 @@ class ApiService {
         responseType: "json",
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
-      .then((response: AxiosResponse) => response);
+      .then((response: AxiosResponse) => response)
+      .catch((err: AxiosError) => err.response);
   }
 }
 

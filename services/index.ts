@@ -1,2 +1,2 @@
-export { default as Router } from "./router.service";
-export { default as ErrorHandler } from "./errorHandler.service";
+export { default as RouterService } from "./router.service";
+export { default as ErrorHandlerService } from "./errorHandler.service";

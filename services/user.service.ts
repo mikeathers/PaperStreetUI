@@ -1,22 +1,23 @@
-import { AxiosResponse } from "axios";
 import { IUserFormValues } from "models/user";
-import { AUTHENTICATION } from "./endpoints";
-import { ApiService } from ".";
+import { AUTHENTICATION } from "./api/endpoints";
+import ApiService from "./api/api.service";
 import TokenService from "./token.service";
 
-class User {
+class UserService {
   apiService: ApiService;
+
   constructor() {
     this.apiService = new ApiService(AUTHENTICATION);
   }
 
-  current = (): Promise<AxiosResponse> =>
-    this.apiService.get("/authentication/current");
+  current = (): any => this.apiService.get("/authentication/current");
 
-  login = (user: IUserFormValues): Promise<AxiosResponse> =>
+  test = (): any => this.apiService.get(`/authentication/test`);
+
+  login = (user: IUserFormValues): any =>
     this.apiService.post(`/authentication/login`, user);
 
-  register = (user: IUserFormValues): Promise<AxiosResponse> =>
+  register = (user: IUserFormValues): any =>
     this.apiService.post(`/authentication/register`, user);
 
   refreshToken = async (token: string, refreshToken: string) => {
@@ -24,9 +25,9 @@ class User {
       token,
       refreshToken,
     });
-    TokenService.setAuthToken(res.data);
-    return res.data.token;
+    TokenService.setAuthToken(res?.data);
+    return res;
   };
 }
 
-export default new User();
+export default new UserService();

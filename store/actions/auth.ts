@@ -1,10 +1,9 @@
 import * as types from "../types";
 import { UserActionTypes } from "../types";
 import { IUserFormValues, IUser } from "models/user";
-import { ErrorHandler, Router } from "services";
-import { User } from "services/api";
+import { ErrorHandlerService, RouterService } from "services";
+import { UserService, TokenService } from "services/api";
 import { store } from "store";
-import { errorMessages } from "shared/constants";
 
 const _dispatch = store.dispatch;
 
@@ -17,39 +16,53 @@ const registerSuccessful = (user: IUser): UserActionTypes => ({
   payload: user,
 });
 
-const registerFailed = (error: string): UserActionTypes => {
+const registerFailed = (errorMessages: Array<string>): UserActionTypes => {
   return {
     type: types.REGISTER_FAILED,
-    payload: error,
+    payload: errorMessages,
   };
 };
 
-const blah = () => {
-  console.log("hey");
-  Router.pushToLogin();
-  _dispatch(registerRequest());
+const blah = async () => {
+  const userDetails = {
+    email: "athers_05@hotmail.co.uk",
+    password: "Password123!",
+  };
+  const response = await UserService.login(userDetails);
+  TokenService.setAuthToken(response.data);
+  console.log(response);
+};
+
+const test = async () => {
+  const response = await UserService.test();
+  console.log(response);
 };
 
 const register = async (userDetails: IUserFormValues) => {
+  _dispatch(registerRequest());
   try {
-    _dispatch(registerRequest());
-    const response = await User.register(userDetails);
-    _dispatch(registerSuccessful(response.data));
-    Router.pushToHome();
-  } catch (error) {
-    try {
-      const handledResponse = await ErrorHandler.handleHttpError(
-        error,
+    const response = await UserService.register(userDetails);
+    if (response.status !== 200) {
+      await ErrorHandlerService.handleHttpError(
+        response,
         _dispatch,
         registerFailed
       );
-      if (handledResponse.status === 200) {
-        _dispatch(registerSuccessful(handledResponse.data));
-      }
-    } catch {
-      registerFailed(errorMessages.CATASTROPHIC_ERROR_MESSAGE);
+    } else {
+      TokenService.setAuthToken(response.data);
+      _dispatch(registerSuccessful(response.data));
     }
+    RouterService.pushToHome();
+  } catch (err) {
+    _dispatch(registerFailed(err?.data?.errors));
   }
 };
 
-export { blah, register, registerRequest, registerFailed, registerSuccessful };
+export {
+  blah,
+  test,
+  register,
+  registerRequest,
+  registerFailed,
+  registerSuccessful,
+};
