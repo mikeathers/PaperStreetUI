@@ -24,6 +24,7 @@ export const authInitialState: IAuthState = {
 
 const authReducer = (state = authInitialState, action: AnyAction) => {
   switch (action.type) {
+    //// REGISTER ////
     case types.REGISTER_REQUEST:
       return {
         ...state,
@@ -47,6 +48,8 @@ const authReducer = (state = authInitialState, action: AnyAction) => {
         error: true,
         errorMessages: action.payload,
       };
+
+    //// LOGIN ////
     case types.LOGIN_REQUEST:
       return {
         ...state,
@@ -54,8 +57,37 @@ const authReducer = (state = authInitialState, action: AnyAction) => {
         error: false,
         errorMessages: [],
       };
+    case types.LOGIN_SUCCESS:
+      return {
+        ...state,
+        user: { ...action.payload, isAuthenticated: true },
+        requestInProgress: false,
+        error: false,
+        errorMessages: [],
+      };
+    case types.LOGIN_FAILED:
+      return {
+        ...state,
+        user: authInitialState.user,
+        requestInProgress: false,
+        error: true,
+        errorMessages: action.payload,
+      };
+
+    //// LOGOUT ////
     case types.LOGOUT_REQUEST:
-      return { ...authInitialState };
+      return { ...authInitialState, requestInProgress: true };
+    case types.LOGOUT_SUCCESS:
+      return { ...authInitialState, requestInProgress: false };
+    case types.LOGOUT_FAILED:
+      return {
+        ...state,
+        requestInProgress: false,
+        error: true,
+        errorMessages: action.payload,
+      };
+
+    //// DEFAULT ////
     default:
       return state;
   }

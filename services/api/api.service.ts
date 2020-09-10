@@ -1,9 +1,21 @@
-import axios, { AxiosResponse, AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosResponse, AxiosInstance } from "axios";
 import { getEndpoint } from "./endpoints";
 import TokenService from "../token.service";
-import { RouterService } from "services";
+import interceptor from "./interceptor";
 
-class ApiService {
+export interface IApiService {
+  get(path: string, authRequired: boolean): void;
+  patch(path: string, payload: object, authRequired: boolean): void;
+  put(path: string, payload: object, authRequired: boolean): void;
+  post(
+    path: string,
+    payload: object,
+    authRequired: boolean
+  ): Promise<AxiosResponse>;
+  del(path: string, authRequired: boolean): void;
+}
+
+class ApiService implements IApiService {
   agent: AxiosInstance;
   defaultHeaders: { Accept: string; "Content-Type": string };
 
@@ -17,45 +29,13 @@ class ApiService {
       headers: defaultHeaders,
     });
 
-    agent.interceptors.response.use(undefined, async (error) => {
-      const originalRequest = error.config;
-      const { status } = error.response;
-
-      if (status === 401 && originalRequest.url.endsWith("refresh")) {
-        TokenService.removeAuthToken();
-
-        RouterService.pushToLogin();
-
-        return Promise.reject(error);
-      }
-
-      if (status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-
-        const { jwt: oldJwt, refreshToken } = TokenService.getAuthToken();
-
-        const res = await this.agent.post(`/authentication/refresh`, {
-          oldJwt,
-          refreshToken,
-        });
-
-        TokenService.setAuthToken(res!.data);
-
-        const { jwt } = TokenService.getAuthToken();
-
-        originalRequest.headers.Authorization = "Bearer " + jwt;
-
-        return agent(originalRequest);
-      }
-
-      return error.response;
-    });
+    interceptor(agent);
 
     this.agent = agent;
     this.defaultHeaders = defaultHeaders;
   }
 
-  get(path: string, authRequired: boolean = false) {
+  get(path: string, authRequired: boolean = false): Promise<AxiosResponse> {
     return this.agent
       .request({
         method: "GET",
@@ -64,10 +44,14 @@ class ApiService {
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response)
-      .catch((err: AxiosError) => err.response);
+      .catch((err) => err.response);
   }
 
-  patch(path: string, payload: Object, authRequired: boolean = false) {
+  patch(
+    path: string,
+    payload: object,
+    authRequired: boolean = false
+  ): Promise<AxiosResponse> {
     return this.agent
       .request({
         method: "PATCH",
@@ -77,10 +61,14 @@ class ApiService {
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response)
-      .catch((err: AxiosError) => err.response);
+      .catch((error) => error.response);
   }
 
-  put(path: string, payload: Object, authRequired: boolean = false) {
+  put(
+    path: string,
+    payload: object,
+    authRequired: boolean = false
+  ): Promise<AxiosResponse> {
     return this.agent
       .request({
         method: "PUT",
@@ -90,10 +78,14 @@ class ApiService {
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response)
-      .catch((err: AxiosError) => err.response);
+      .catch((error) => error.response);
   }
 
-  post(path: string, payload: Object, authRequired: boolean = false) {
+  post(
+    path: string,
+    payload: object,
+    authRequired: boolean = false
+  ): Promise<AxiosResponse> {
     return this.agent
       .request({
         method: "POST",
@@ -103,10 +95,10 @@ class ApiService {
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response)
-      .catch((err: AxiosError) => err.response);
+      .catch((error) => error);
   }
 
-  del(path: string, authRequired: boolean = false) {
+  del(path: string, authRequired: boolean = false): Promise<AxiosResponse> {
     return this.agent
       .request({
         method: "DELETE",
@@ -115,7 +107,7 @@ class ApiService {
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response)
-      .catch((err: AxiosError) => err.response);
+      .catch((error) => error.response);
   }
 }
 

@@ -1,4 +1,4 @@
-import { ErrorHandlerService } from "../";
+import { ErrorHandlerService } from "..";
 import { errorMessages } from "shared/constants";
 
 describe("Error Handler Service", () => {

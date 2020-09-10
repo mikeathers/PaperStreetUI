@@ -1,7 +1,6 @@
 import { AxiosInstance } from "axios";
 import TokenService from "../token.service";
 import RouterService from "../router.service";
-import { UserService } from ".";
 
 const interceptor = (agent: AxiosInstance) => {
   agent.interceptors.response.use(undefined, async (error) => {
@@ -21,7 +20,10 @@ const interceptor = (agent: AxiosInstance) => {
 
       const { jwt: oldJwt, refreshToken } = TokenService.getAuthToken();
 
-      const res = await UserService.refreshToken(oldJwt!, refreshToken!);
+      const res = await agent.post(`/authentication/refresh`, {
+        oldJwt,
+        refreshToken,
+      });
 
       TokenService.setAuthToken(res!.data);
 
