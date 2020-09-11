@@ -1,12 +1,12 @@
-import { IUserFormValues } from "models/user";
-import { AUTHENTICATION } from "./api/endpoints";
+import { IUserRegisterValues, IUserLoginValues } from "models/user";
+import { AUTHENTICATION } from "./api/api.endpoints";
 import ApiService, { IApiService } from "./api/api.service";
 import TokenService from "./token.service";
 import { AxiosResponse, AxiosError } from "axios";
 
 export interface IUserService {
-  login(user: IUserFormValues): void;
-  register(user: IUserFormValues): void;
+  login(user: IUserLoginValues): void;
+  register(user: IUserRegisterValues): void;
   refreshToken(
     token: string,
     refreshToken: string
@@ -22,10 +22,10 @@ class UserService implements IUserService {
     this.apiService = new ApiService(AUTHENTICATION);
   }
 
-  login = (user: IUserFormValues): any =>
+  login = (user: IUserLoginValues): any =>
     this.apiService.post(`/authentication/login`, user);
 
-  register = (user: IUserFormValues): any =>
+  register = (user: IUserRegisterValues): any =>
     this.apiService.post(`/authentication/register`, user);
 
   refreshToken = async (

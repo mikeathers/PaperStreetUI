@@ -1,6 +1,6 @@
 import mockAxios from "jest-mock-axios";
 import ApiService from "../api.service";
-import { AUTHENTICATION } from "services/api/endpoints";
+import { AUTHENTICATION } from "services/api/api.endpoints";
 
 describe("API Service", () => {
   const catchFn = jest.fn();

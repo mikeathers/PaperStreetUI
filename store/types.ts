@@ -15,17 +15,16 @@ export const REGISTER_FAILED = "REGISTER_FAILED";
 
 interface LoginRequest {
   type: typeof LOGIN_REQUEST;
-  payload: IUser;
 }
 
 interface LoginSuccess {
   type: typeof LOGIN_SUCCESS;
-  payload: AxiosResponse;
+  payload: IUser;
 }
 
 interface LoginFailed {
   type: typeof LOGIN_FAILED;
-  payload: Error;
+  payload: Array<string>;
 }
 
 interface LogoutRequest {

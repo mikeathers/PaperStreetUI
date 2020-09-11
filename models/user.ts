@@ -6,9 +6,14 @@ export interface IUser {
   isAuthenticated: boolean;
 }
 
-export interface IUserFormValues {
+export interface IUserRegisterValues {
   email: string;
   password: string;
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface IUserLoginValues {
+  email: string;
+  password: string;
 }

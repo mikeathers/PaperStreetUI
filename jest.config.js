@@ -3,7 +3,7 @@ module.exports = {
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
-  testMatch: ["**/__tests__/*.(ts|tsx)"],
+  testRegex: "(/__tests__/.*|(\\.|/)(test/spec))\\.(ts|tsx)?$",
   moduleDirectories: ["node_modules", "bower_components", "src"],
   setupFilesAfterEnv: ["<rootDir>/__mocks__/setup-tests.ts"],
   testPathIgnorePatterns: ["./.next/", "./node_modules/"],

@@ -1,8 +1,12 @@
-import * as types from "../types";
-import { UserActionTypes } from "../types";
-import { IUserFormValues, IUser } from "models/user";
-import { ErrorHandlerService, RouterService } from "services";
-import { UserService, TokenService } from "services/api";
+import * as types from "../../types";
+import { UserActionTypes } from "../../types";
+import { IUserRegisterValues, IUser } from "models/user";
+import {
+  ErrorHandlerService,
+  RouterService,
+  UserService,
+  TokenService,
+} from "services";
 import { store } from "store";
 
 const _dispatch = store.dispatch;
@@ -23,22 +27,7 @@ const registerFailed = (errorMessages: Array<string>): UserActionTypes => {
   };
 };
 
-const blah = async () => {
-  const userDetails = {
-    email: "athers_05@hotmail.co.uk",
-    password: "Password123!",
-  };
-  const response = await UserService.login(userDetails);
-  TokenService.setAuthToken(response.data);
-  console.log(response);
-};
-
-const test = async () => {
-  const response = await UserService.test();
-  console.log(response);
-};
-
-const register = async (userDetails: IUserFormValues) => {
+const register = async (userDetails: IUserRegisterValues) => {
   _dispatch(registerRequest());
   try {
     const response = await UserService.register(userDetails);
@@ -58,11 +47,4 @@ const register = async (userDetails: IUserFormValues) => {
   }
 };
 
-export {
-  blah,
-  test,
-  register,
-  registerRequest,
-  registerFailed,
-  registerSuccessful,
-};
+export { register, registerRequest, registerFailed, registerSuccessful };

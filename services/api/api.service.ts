@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosInstance } from "axios";
-import { getEndpoint } from "./endpoints";
+import { getEndpoint } from "./api.endpoints";
 import TokenService from "../token.service";
-import interceptor from "./interceptor";
+import interceptor from "./api.interceptor";
 
 export interface IApiService {
   get(path: string, authRequired: boolean): void;
