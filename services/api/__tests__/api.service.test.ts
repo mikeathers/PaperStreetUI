@@ -1,32 +1,32 @@
-import mockAxios from "jest-mock-axios";
-import ApiService from "../api.service";
-import { AUTHENTICATION } from "services/api/api.endpoints";
+import mockAxios from 'jest-mock-axios';
+import { AUTHENTICATION } from 'services/api/api.endpoints';
+import ApiService from '../api.service';
 
-describe("API Service", () => {
+describe('API Service', () => {
   const catchFn = jest.fn();
   const thenFn = jest.fn();
 
   const { defaultAxiosResponse } = global;
 
   const body = {
-    email: "test@test.com",
-    password: "Passwprd123!",
-    displayName: "Tester",
+    email: 'test@test.com',
+    password: 'Passwprd123!',
+    displayName: 'Tester',
   };
 
   afterEach(() => {
     mockAxios.reset();
   });
 
-  describe("GET", () => {
+  describe('GET', () => {
     let apiService;
-    const path = "/login";
+    const path = '/login';
 
     beforeEach(() => {
       apiService = new ApiService(AUTHENTICATION);
     });
 
-    it("should make a GET request to the authentication microservice with correct url", () => {
+    it('should make a GET request to the authentication microservice with correct url', () => {
       apiService.get(path).then(thenFn).catch(catchFn);
 
       const {
@@ -34,7 +34,7 @@ describe("API Service", () => {
         url,
       } = mockAxios.lastReqGet();
 
-      expect(method).toEqual("GET");
+      expect(method).toEqual('GET');
 
       expect(url).toEqual(path);
 
@@ -44,7 +44,7 @@ describe("API Service", () => {
       expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
     });
 
-    it("should make a GET request to the authentication microservice with auth header when requiresAuth is true", () => {
+    it('should make a GET request to the authentication microservice with auth header when requiresAuth is true', () => {
       const requiresAuth = true;
 
       apiService.get(path, requiresAuth).then(thenFn).catch(catchFn);
@@ -53,7 +53,7 @@ describe("API Service", () => {
         config: { method, headers },
       } = mockAxios.lastReqGet();
 
-      expect(method).toEqual("GET");
+      expect(method).toEqual('GET');
 
       expect(headers.Authorization).not.toBeNull();
 
@@ -64,15 +64,15 @@ describe("API Service", () => {
     });
   });
 
-  describe("POST", () => {
+  describe('POST', () => {
     let apiService;
-    const path = "/register";
+    const path = '/register';
 
     beforeEach(() => {
       apiService = new ApiService(AUTHENTICATION);
     });
 
-    it("should make a POST request to the authentication microservice with correct url", () => {
+    it('should make a POST request to the authentication microservice with correct url', () => {
       apiService.post(path, body).then(thenFn).catch(catchFn);
 
       const {
@@ -80,7 +80,7 @@ describe("API Service", () => {
         url,
       } = mockAxios.lastReqGet();
 
-      expect(method).toEqual("POST");
+      expect(method).toEqual('POST');
 
       expect(url).toEqual(path);
 
@@ -90,7 +90,7 @@ describe("API Service", () => {
       expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
     });
 
-    it("should make a POST request to the authentication microservice with auth header when requiresAuth is true", () => {
+    it('should make a POST request to the authentication microservice with auth header when requiresAuth is true', () => {
       const requiresAuth = true;
 
       apiService.post(path, body, requiresAuth).then(thenFn).catch(catchFn);
@@ -99,7 +99,7 @@ describe("API Service", () => {
         config: { method, headers },
       } = mockAxios.lastReqGet();
 
-      expect(method).toEqual("POST");
+      expect(method).toEqual('POST');
 
       expect(headers.Authorization).not.toBeNull();
 
@@ -109,7 +109,7 @@ describe("API Service", () => {
       expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
     });
 
-    it("should make a POST request to the authentication microservice with correct body data", () => {
+    it('should make a POST request to the authentication microservice with correct body data', () => {
       apiService.post(path, body).then(thenFn).catch(catchFn);
 
       const {
@@ -127,20 +127,20 @@ describe("API Service", () => {
       expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
     });
 
-    describe("PUT", () => {
+    describe('PUT', () => {
       let apiService;
-      const path = "/register";
+      const path = '/register';
       const body = {
-        email: "test@test.com",
-        password: "Passwprd123!",
-        displayName: "Tester",
+        email: 'test@test.com',
+        password: 'Passwprd123!',
+        displayName: 'Tester',
       };
 
       beforeEach(() => {
         apiService = new ApiService(AUTHENTICATION);
       });
 
-      it("should make a PUT request to the authentication microservice with correct url", () => {
+      it('should make a PUT request to the authentication microservice with correct url', () => {
         apiService.put(path, body).then(thenFn).catch(catchFn);
 
         const {
@@ -148,7 +148,7 @@ describe("API Service", () => {
           url,
         } = mockAxios.lastReqGet();
 
-        expect(method).toEqual("PUT");
+        expect(method).toEqual('PUT');
 
         expect(url).toEqual(path);
 
@@ -158,7 +158,7 @@ describe("API Service", () => {
         expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
       });
 
-      it("should make a PUT request to the authentication microservice with auth header when requiresAuth is true", () => {
+      it('should make a PUT request to the authentication microservice with auth header when requiresAuth is true', () => {
         const requiresAuth = true;
 
         apiService.put(path, body, requiresAuth).then(thenFn).catch(catchFn);
@@ -167,7 +167,7 @@ describe("API Service", () => {
           config: { method, headers },
         } = mockAxios.lastReqGet();
 
-        expect(method).toEqual("PUT");
+        expect(method).toEqual('PUT');
 
         expect(headers.Authorization).not.toBeNull();
 
@@ -177,7 +177,7 @@ describe("API Service", () => {
         expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
       });
 
-      it("should make a PUT request to the authentication microservice with correct body data", () => {
+      it('should make a PUT request to the authentication microservice with correct body data', () => {
         apiService.put(path, body).then(thenFn).catch(catchFn);
 
         const {
@@ -197,20 +197,20 @@ describe("API Service", () => {
     });
   });
 
-  describe("PATCH", () => {
+  describe('PATCH', () => {
     let apiService;
-    const path = "/register";
+    const path = '/register';
     const body = {
-      email: "test@test.com",
-      password: "Passwprd123!",
-      displayName: "Tester",
+      email: 'test@test.com',
+      password: 'Passwprd123!',
+      displayName: 'Tester',
     };
 
     beforeEach(() => {
       apiService = new ApiService(AUTHENTICATION);
     });
 
-    it("should make a PATCH request to the authentication microservice with correct url", () => {
+    it('should make a PATCH request to the authentication microservice with correct url', () => {
       apiService.patch(path, body).then(thenFn).catch(catchFn);
 
       const {
@@ -218,7 +218,7 @@ describe("API Service", () => {
         url,
       } = mockAxios.lastReqGet();
 
-      expect(method).toEqual("PATCH");
+      expect(method).toEqual('PATCH');
 
       expect(url).toEqual(path);
 
@@ -228,7 +228,7 @@ describe("API Service", () => {
       expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
     });
 
-    it("should make a PATCH request to the authentication microservice with auth header when requiresAuth is true", () => {
+    it('should make a PATCH request to the authentication microservice with auth header when requiresAuth is true', () => {
       const requiresAuth = true;
 
       apiService.patch(path, body, requiresAuth).then(thenFn).catch(catchFn);
@@ -237,7 +237,7 @@ describe("API Service", () => {
         config: { method, headers },
       } = mockAxios.lastReqGet();
 
-      expect(method).toEqual("PATCH");
+      expect(method).toEqual('PATCH');
 
       expect(headers.Authorization).not.toBeNull();
 
@@ -247,7 +247,7 @@ describe("API Service", () => {
       expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
     });
 
-    it("should make a PATCH request to the authentication microservice with correct body data", () => {
+    it('should make a PATCH request to the authentication microservice with correct body data', () => {
       apiService.patch(path, body).then(thenFn).catch(catchFn);
 
       const {
@@ -266,15 +266,15 @@ describe("API Service", () => {
     });
   });
 
-  describe("DELETE", () => {
+  describe('DELETE', () => {
     let apiService;
-    const path = "/user/delete/123";
+    const path = '/user/delete/123';
 
     beforeEach(() => {
       apiService = new ApiService(AUTHENTICATION);
     });
 
-    it("should make a DELETE request to the authentication microservice with correct url", () => {
+    it('should make a DELETE request to the authentication microservice with correct url', () => {
       apiService.del(path).then(thenFn).catch(catchFn);
 
       const {
@@ -282,7 +282,7 @@ describe("API Service", () => {
         url,
       } = mockAxios.lastReqGet();
 
-      expect(method).toEqual("DELETE");
+      expect(method).toEqual('DELETE');
 
       expect(url).toEqual(path);
 
@@ -292,7 +292,7 @@ describe("API Service", () => {
       expect(thenFn).toHaveBeenCalledWith(defaultAxiosResponse);
     });
 
-    it("should make a DELETE request to the authentication microservice with auth header when requiresAuth is true", () => {
+    it('should make a DELETE request to the authentication microservice with auth header when requiresAuth is true', () => {
       const requiresAuth = true;
 
       apiService.del(path, body, requiresAuth).then(thenFn).catch(catchFn);
@@ -301,7 +301,7 @@ describe("API Service", () => {
         config: { method, headers },
       } = mockAxios.lastReqGet();
 
-      expect(method).toEqual("DELETE");
+      expect(method).toEqual('DELETE');
 
       expect(headers.Authorization).not.toBeNull();
 

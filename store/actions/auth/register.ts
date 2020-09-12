@@ -1,13 +1,13 @@
-import * as types from "../../types/auth";
-import { UserActionTypes } from "../../types/auth";
-import { IUserRegisterValues, IUser } from "models/user";
+import { IUserRegisterValues, IUser } from 'models';
 import {
   ErrorHandlerService,
   RouterService,
   UserService,
   TokenService,
-} from "services";
-import { store } from "store";
+} from 'services';
+import { store } from 'store';
+import { UserActionTypes } from '../../types/auth';
+import * as types from '../../types/auth';
 
 const _dispatch = store.dispatch;
 
@@ -20,14 +20,12 @@ const registerSuccessful = (user: IUser): UserActionTypes => ({
   payload: user,
 });
 
-const registerFailed = (errorMessages: Array<string>): UserActionTypes => {
-  return {
-    type: types.REGISTER_FAILED,
-    payload: errorMessages,
-  };
-};
+const registerFailed = (errorMessages: Array<string>): UserActionTypes => ({
+  type: types.REGISTER_FAILED,
+  payload: errorMessages,
+});
 
-const register = async (userDetails: IUserRegisterValues) => {
+const register = async (userDetails: IUserRegisterValues): Promise<void> => {
   _dispatch(registerRequest());
   try {
     const response = await UserService.register(userDetails);
@@ -35,7 +33,7 @@ const register = async (userDetails: IUserRegisterValues) => {
       await ErrorHandlerService.handleHttpError(
         response,
         _dispatch,
-        registerFailed
+        registerFailed,
       );
     } else {
       TokenService.setAuthToken(response.data);

@@ -1,13 +1,13 @@
-import { AxiosInstance } from "axios";
-import TokenService from "../token.service";
-import RouterService from "../router.service";
+import { AxiosInstance } from 'axios';
+import TokenService from '../token.service';
+import RouterService from '../router.service';
 
 const interceptor = (agent: AxiosInstance) => {
   agent.interceptors.response.use(undefined, async (error) => {
     const originalRequest = error.config;
     const { status } = error.response;
 
-    if (status === 401 && originalRequest.url.endsWith("refresh")) {
+    if (status === 401 && originalRequest.url.endsWith('refresh')) {
       TokenService.removeAuthToken();
 
       RouterService.pushToLogin();
@@ -20,7 +20,7 @@ const interceptor = (agent: AxiosInstance) => {
 
       const { jwt: oldJwt, refreshToken } = TokenService.getAuthToken();
 
-      const res = await agent.post(`/authentication/refresh`, {
+      const res = await agent.post('/authentication/refresh', {
         oldJwt,
         refreshToken,
       });
@@ -29,7 +29,7 @@ const interceptor = (agent: AxiosInstance) => {
 
       const { jwt } = TokenService.getAuthToken();
 
-      originalRequest.headers.Authorization = "Bearer " + jwt;
+      originalRequest.headers.Authorization = `Bearer ${jwt}`;
 
       return agent(originalRequest);
     }

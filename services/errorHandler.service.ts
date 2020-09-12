@@ -1,5 +1,5 @@
-import { errorMessages } from "../shared/constants";
-import { Dispatch } from "redux";
+import { Dispatch } from 'redux';
+import { errorMessages } from '../shared/constants';
 
 class ErrorHandlerService {
   handleHttpError = async (error: any, _dispatch: Dispatch, action: any) => {
@@ -11,7 +11,7 @@ class ErrorHandlerService {
     }
     const {
       status,
-      data: { errors: errors },
+      data: { errors },
     } = error;
 
     if (status === 400) {

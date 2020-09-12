@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   html, body {
@@ -27,13 +27,11 @@ export const GlobalStyle = createGlobalStyle`
 
 `;
 
-const BasicLayout = ({ children }: { children: any }) => {
-  return (
-    <>
-      <GlobalStyle />
-      {children}
-    </>
-  );
-};
+const BasicLayout = ({ children }: { children: any }) => (
+  <>
+    <GlobalStyle />
+    {children}
+  </>
+);
 
 export default BasicLayout;

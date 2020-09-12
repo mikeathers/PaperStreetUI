@@ -8,8 +8,8 @@ class TokenService {
       : headers;
 
   getAuthToken = () => {
-    const jwt = window.localStorage.getItem("jwt");
-    const refreshToken = window.localStorage.getItem("refreshToken");
+    const jwt = window.localStorage.getItem('jwt');
+    const refreshToken = window.localStorage.getItem('refreshToken');
     return {
       jwt,
       refreshToken,
@@ -18,17 +18,17 @@ class TokenService {
 
   setAuthToken = (
     data: { token: string; refreshToken: string } = {
-      token: "",
-      refreshToken: "",
-    }
+      token: '',
+      refreshToken: '',
+    },
   ) => {
-    window.localStorage.setItem("jwt", data?.token);
-    window.localStorage.setItem("refreshToken", data?.refreshToken);
+    window.localStorage.setItem('jwt', data?.token);
+    window.localStorage.setItem('refreshToken', data?.refreshToken);
   };
 
   removeAuthToken = () => {
-    window.localStorage.removeItem("jwt");
-    window.localStorage.removeItem("refreshToken");
+    window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem('refreshToken');
   };
 }
 

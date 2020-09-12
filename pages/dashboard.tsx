@@ -1,12 +1,10 @@
-import React from "react";
-import withPrivateRoute from "HOCs/withPrivateRoute";
+import React from 'react';
+import withPrivateRoute from 'HOCs/withPrivateRoute';
 
-const Dashboard = () => {
-  return <div>This is a Dashboard page which is private.</div>;
-};
+const Dashboard = () => <div>This is a Dashboard page which is private.</div>;
 
 Dashboard.getInitialProps = async (props: any) => {
-  console.info("##### Congratulations! You are authorized! ######", props);
+  console.info('##### Congratulations! You are authorized! ######', props);
   return {};
 };
 

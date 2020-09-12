@@ -1,13 +1,13 @@
-import * as types from "../../types/auth";
-import { UserActionTypes } from "../../types/auth";
-import { IUser, IUserLoginValues } from "models/user";
+import { IUser, IUserLoginValues } from 'models';
 import {
   ErrorHandlerService,
   RouterService,
   UserService,
   TokenService,
-} from "services";
-import { store } from "store";
+} from 'services';
+import { store } from 'store';
+import { UserActionTypes } from '../../types/auth';
+import * as types from '../../types/auth';
 
 const _dispatch = store.dispatch;
 
@@ -25,7 +25,7 @@ const loginFailed = (errorMessages: Array<string>): UserActionTypes => ({
   payload: errorMessages,
 });
 
-const login = async (loginDetails: IUserLoginValues) => {
+const login = async (loginDetails: IUserLoginValues): Promise<void> => {
   _dispatch(loginRequest());
   try {
     const response = await UserService.login(loginDetails);
@@ -33,7 +33,7 @@ const login = async (loginDetails: IUserLoginValues) => {
       await ErrorHandlerService.handleHttpError(
         response,
         _dispatch,
-        loginFailed
+        loginFailed,
       );
     } else {
       TokenService.setAuthToken(response.data);

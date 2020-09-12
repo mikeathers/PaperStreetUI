@@ -1,17 +1,17 @@
-import AuthReducer from "..";
-import { initialAuthState } from "../initial-auth-state";
+import AuthReducer from '..';
+import { initialAuthState } from '../initial-auth-state';
 
-import * as types from "../../../types/auth";
+import * as types from '../../../types/auth';
 
-describe("User Reducer", () => {
+describe('User Reducer', () => {
   let authReducer;
 
   beforeEach(() => {
     authReducer = AuthReducer.reduce;
   });
 
-  describe("Register", () => {
-    it("should reduce the state by REGISTER_REQUEST action type", () => {
+  describe('Register', () => {
+    it('should reduce the state by REGISTER_REQUEST action type', () => {
       const registerRequestAction = {
         type: types.REGISTER_REQUEST,
       };
@@ -24,11 +24,11 @@ describe("User Reducer", () => {
       });
     });
 
-    it("should reduce the state by REGISTER_SUCCESS action type", () => {
+    it('should reduce the state by REGISTER_SUCCESS action type', () => {
       const user = {
-        displayName: "Test User",
-        token: "123",
-        refreshToken: "123",
+        displayName: 'Test User',
+        token: '123',
+        refreshToken: '123',
         image: null,
         isAuthenticated: true,
       };
@@ -46,8 +46,8 @@ describe("User Reducer", () => {
       });
     });
 
-    it("should reduce the state by REGISTER_FAILED action type", () => {
-      const errorMessages = ["Request failed"];
+    it('should reduce the state by REGISTER_FAILED action type', () => {
+      const errorMessages = ['Request failed'];
 
       const registerFailedAction = {
         type: types.REGISTER_FAILED,
@@ -64,8 +64,8 @@ describe("User Reducer", () => {
     });
   });
 
-  describe("Login", () => {
-    it("should reduce the state by LOGIN_REQUEST action type", () => {
+  describe('Login', () => {
+    it('should reduce the state by LOGIN_REQUEST action type', () => {
       const loginRequestAction = {
         type: types.LOGIN_REQUEST,
       };
@@ -78,11 +78,11 @@ describe("User Reducer", () => {
       });
     });
 
-    it("should reduce the state by LOGIN_SUCCESS action type", () => {
+    it('should reduce the state by LOGIN_SUCCESS action type', () => {
       const user = {
-        displayName: "Test User",
-        token: "123",
-        refreshToken: "123",
+        displayName: 'Test User',
+        token: '123',
+        refreshToken: '123',
         image: null,
         isAuthenticated: true,
       };
@@ -100,8 +100,8 @@ describe("User Reducer", () => {
       });
     });
 
-    it("should reduce the state by LOGIN_FAILED action type", () => {
-      const errorMessages = ["Request failed"];
+    it('should reduce the state by LOGIN_FAILED action type', () => {
+      const errorMessages = ['Request failed'];
 
       const loginFailedAction = {
         type: types.LOGIN_FAILED,
@@ -118,8 +118,8 @@ describe("User Reducer", () => {
     });
   });
 
-  describe("Logout", () => {
-    it("should reduce the state by LOGOUT_REQUEST action type", () => {
+  describe('Logout', () => {
+    it('should reduce the state by LOGOUT_REQUEST action type', () => {
       const logoutRequestAction = {
         type: types.LOGOUT_REQUEST,
       };
@@ -132,14 +132,14 @@ describe("User Reducer", () => {
       });
     });
 
-    it("should reduce the state by LOGOUT_FAILED action type", () => {
-      const errorMessages = ["Request failed"];
+    it('should reduce the state by LOGOUT_FAILED action type', () => {
+      const errorMessages = ['Request failed'];
 
       const user = {
-        displayName: "Test User",
-        token: "123",
-        refreshToken: "123",
-        image: "",
+        displayName: 'Test User',
+        token: '123',
+        refreshToken: '123',
+        image: '',
         isAuthenticated: true,
       };
 
@@ -162,7 +162,7 @@ describe("User Reducer", () => {
       });
     });
 
-    it("should reduce the state by LOGOUT_SUCCESS action type", () => {
+    it('should reduce the state by LOGOUT_SUCCESS action type', () => {
       const logoutFailedAction = {
         type: types.LOGOUT_SUCCESS,
       };

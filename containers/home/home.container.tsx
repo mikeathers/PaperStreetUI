@@ -1,8 +1,8 @@
-import React, { FC } from "react";
-import Head from "next/head";
-import { useSelector } from "react-redux";
-import { RootState } from "store/reducers";
-import * as S from "./home.styles";
+import React, { FC } from 'react';
+import Head from 'next/head';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
+import * as S from './home.styles';
 
 const HomeContainer: FC = () => {
   const token = useSelector<RootState, string>((s) => s.auth.user.token);

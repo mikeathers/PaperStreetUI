@@ -1,31 +1,31 @@
+import { format } from 'url';
 import {
   createStore,
   applyMiddleware,
   Middleware,
   Reducer,
   AnyAction,
-} from "redux";
-import { MakeStore, createWrapper, Context, HYDRATE } from "next-redux-wrapper";
-import thunk from "redux-thunk";
-import { format } from "url";
+} from 'redux';
+import { MakeStore, createWrapper, Context, HYDRATE } from 'next-redux-wrapper';
+import thunk from 'redux-thunk';
 import {
   createRouterMiddleware,
   initialRouterState,
-} from "connected-next-router";
-import Router from "next/router";
+} from 'connected-next-router';
+import Router from 'next/router';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-import rootReducer, { RootState } from "./reducers";
-import { initialAuthState } from "./reducers/auth";
-import { AppContext } from "next/app";
+import { AppContext } from 'next/app';
+import rootReducer, { RootState } from './reducers';
+import { initialAuthState } from './reducers/auth';
 
 const routerMiddleware = createRouterMiddleware();
 
 const bindMiddleware = (middleware: [Middleware]) => {
-  const { composeWithDevTools } = require("redux-devtools-extension");
   return composeWithDevTools(applyMiddleware(...middleware, thunk));
 };
 
-export const initialState = () => {
+export const initialState = (): RootState => {
   const { asPath, pathname, query } = Router.router || {};
   let initialState;
   if (asPath) {
@@ -39,26 +39,24 @@ export const initialState = () => {
 };
 
 const reducer: Reducer<RootState, AnyAction> = (state, action) => {
-  console.log(action);
   if (action.type === HYDRATE) {
     const nextState = {
       ...state, // use previous state
       ...action.payload, // apply delta from hydration
     };
-    if (typeof window !== "undefined" && state?.router) {
+    if (typeof window !== 'undefined' && state?.router) {
       // preserve router value on client side navigation
       nextState.router = state.router;
     }
     return nextState;
-  } else {
-    return rootReducer(state, action);
   }
+  return rootReducer(state, action);
 };
 
 export const store = createStore(
   reducer,
   initialState(),
-  bindMiddleware([routerMiddleware])
+  bindMiddleware([routerMiddleware]),
 );
 
 export const initStore: MakeStore<RootState> = (context: Context) => {

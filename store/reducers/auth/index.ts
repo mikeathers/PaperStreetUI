@@ -1,20 +1,20 @@
-import { AnyAction } from "redux";
-import { initialAuthState, IAuthState } from "./initial-auth-state";
-import * as types from "../../types/auth";
+import { AnyAction } from 'redux';
+
+import * as types from '../../types/auth';
+
+import { initialAuthState, IAuthState } from './initial-auth-state';
 
 export interface IAuthReducer {
   getInitialState(): IAuthState;
-  reduce(state: IAuthState, action: AnyAction): any;
+  reduce(state: IAuthState, action: AnyAction): void;
 }
 
 class AuthReducer implements IAuthReducer {
-  getInitialState = () => {
-    return initialAuthState;
-  };
+  getInitialState = () => initialAuthState;
 
   reduce = (state: IAuthState = this.getInitialState(), action: AnyAction) => {
     switch (action.type) {
-      //// REGISTER ////
+      /// REGISTER ///
       case types.REGISTER_REQUEST:
         return {
           ...state,
@@ -38,7 +38,7 @@ class AuthReducer implements IAuthReducer {
           errorMessages: action.payload,
         };
 
-      //// LOGIN ////
+      /// LOGIN ///
       case types.LOGIN_REQUEST:
         return {
           ...state,
@@ -63,7 +63,7 @@ class AuthReducer implements IAuthReducer {
           errorMessages: action.payload,
         };
 
-      //// LOGOUT ////
+      /// LOGOUT ///
       case types.LOGOUT_REQUEST:
         return { ...initialAuthState, requestInProgress: true };
       case types.LOGOUT_SUCCESS:
@@ -76,7 +76,7 @@ class AuthReducer implements IAuthReducer {
           errorMessages: action.payload,
         };
 
-      //// DEFAULT ////
+      /// DEFAULT ///
       default:
         return state;
     }
@@ -84,4 +84,4 @@ class AuthReducer implements IAuthReducer {
 }
 
 export default new AuthReducer();
-export * from "./initial-auth-state";
+export * from './initial-auth-state';

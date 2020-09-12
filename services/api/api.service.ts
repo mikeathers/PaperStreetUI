@@ -1,28 +1,29 @@
-import axios, { AxiosResponse, AxiosInstance } from "axios";
-import { getEndpoint } from "./api.endpoints";
-import TokenService from "../token.service";
-import interceptor from "./api.interceptor";
+import axios, { AxiosResponse, AxiosInstance } from 'axios';
+import TokenService from '../token.service';
+import { getEndpoint } from './api.endpoints';
+import interceptor from './api.interceptor';
 
 export interface IApiService {
   get(path: string, authRequired: boolean): void;
-  patch(path: string, payload: object, authRequired: boolean): void;
-  put(path: string, payload: object, authRequired: boolean): void;
+  patch(path: string, payload: unknown, authRequired: boolean): void;
+  put(path: string, payload: unknown, authRequired: boolean): void;
   post(
     path: string,
-    payload: object,
-    authRequired: boolean
+    payload: unknown,
+    authRequired: boolean,
   ): Promise<AxiosResponse>;
   del(path: string, authRequired: boolean): void;
 }
 
 class ApiService implements IApiService {
   agent: AxiosInstance;
-  defaultHeaders: { Accept: string; "Content-Type": string };
+
+  defaultHeaders: { Accept: string; 'Content-Type': string };
 
   constructor(microservice: string) {
     const defaultHeaders = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     };
     const agent = axios.create({
       baseURL: getEndpoint(microservice),
@@ -35,12 +36,12 @@ class ApiService implements IApiService {
     this.defaultHeaders = defaultHeaders;
   }
 
-  get(path: string, authRequired: boolean = false): Promise<AxiosResponse> {
+  get(path: string, authRequired = false): Promise<AxiosResponse> {
     return this.agent
       .request({
-        method: "GET",
+        method: 'GET',
         url: path,
-        responseType: "json",
+        responseType: 'json',
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response)
@@ -49,14 +50,14 @@ class ApiService implements IApiService {
 
   patch(
     path: string,
-    payload: object,
-    authRequired: boolean = false
+    payload: unknown,
+    authRequired = false,
   ): Promise<AxiosResponse> {
     return this.agent
       .request({
-        method: "PATCH",
+        method: 'PATCH',
         url: path,
-        responseType: "json",
+        responseType: 'json',
         data: payload,
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
@@ -66,14 +67,14 @@ class ApiService implements IApiService {
 
   put(
     path: string,
-    payload: object,
-    authRequired: boolean = false
+    payload: unknown,
+    authRequired = false,
   ): Promise<AxiosResponse> {
     return this.agent
       .request({
-        method: "PUT",
+        method: 'PUT',
         url: path,
-        responseType: "json",
+        responseType: 'json',
         data: payload,
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
@@ -83,14 +84,14 @@ class ApiService implements IApiService {
 
   post(
     path: string,
-    payload: object,
-    authRequired: boolean = false
+    payload: unknown,
+    authRequired = false,
   ): Promise<AxiosResponse> {
     return this.agent
       .request({
-        method: "POST",
+        method: 'POST',
         url: path,
-        responseType: "json",
+        responseType: 'json',
         data: payload,
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
@@ -98,12 +99,12 @@ class ApiService implements IApiService {
       .catch((error) => error);
   }
 
-  del(path: string, authRequired: boolean = false): Promise<AxiosResponse> {
+  del(path: string, authRequired = false): Promise<AxiosResponse> {
     return this.agent
       .request({
-        method: "DELETE",
+        method: 'DELETE',
         url: path,
-        responseType: "json",
+        responseType: 'json',
         headers: TokenService.setAuthHeaders(this.defaultHeaders, authRequired),
       })
       .then((response: AxiosResponse) => response)

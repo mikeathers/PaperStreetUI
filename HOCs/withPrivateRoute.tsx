@@ -1,11 +1,13 @@
-import React from "react";
-import Router from "next/router";
-import { store } from "store";
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
+import Router from 'next/router';
+import { store } from 'store';
 
-const login = "/login?redirected=true";
+const login = '/login?redirected=true';
 
 const WrappedComponent = (WrappedComponent: any) => {
-  const user = store.getState().auth.user;
+  const { user } = store.getState().auth;
   const hocComponent = ({ ...props }) => <WrappedComponent {...props} />;
 
   hocComponent.getInitialProps = async ({ res }) => {

@@ -1,4 +1,4 @@
-import { IUser } from "models/user";
+import { IUser } from 'models';
 
 export interface IAuthState {
   user: IUser;
@@ -9,10 +9,10 @@ export interface IAuthState {
 
 export const initialAuthState: IAuthState = {
   user: {
-    displayName: "",
-    token: "",
-    refreshToken: "",
-    image: "",
+    displayName: '',
+    token: '',
+    refreshToken: '',
+    image: '',
     isAuthenticated: false,
   },
   errorMessages: [],
