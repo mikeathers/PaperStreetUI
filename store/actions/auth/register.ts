@@ -1,5 +1,5 @@
-import * as types from "../../types";
-import { UserActionTypes } from "../../types";
+import * as types from "../../types/auth";
+import { UserActionTypes } from "../../types/auth";
 import { IUserRegisterValues, IUser } from "models/user";
 import {
   ErrorHandlerService,

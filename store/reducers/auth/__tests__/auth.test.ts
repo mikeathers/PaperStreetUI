@@ -1,17 +1,25 @@
-import authReducer, { authInitialState } from "../auth";
-import * as types from "../../types";
+import AuthReducer from "..";
+import { initialAuthState } from "../initial-auth-state";
+
+import * as types from "../../../types/auth";
 
 describe("User Reducer", () => {
+  let authReducer;
+
+  beforeEach(() => {
+    authReducer = AuthReducer.reduce;
+  });
+
   describe("Register", () => {
     it("should reduce the state by REGISTER_REQUEST action type", () => {
       const registerRequestAction = {
         type: types.REGISTER_REQUEST,
       };
 
-      const result = authReducer(authInitialState, registerRequestAction);
+      const result = authReducer(initialAuthState, registerRequestAction);
 
       expect(result).toEqual({
-        ...authInitialState,
+        ...initialAuthState,
         requestInProgress: true,
       });
     });
@@ -30,10 +38,10 @@ describe("User Reducer", () => {
         payload: user,
       };
 
-      const result = authReducer(authInitialState, registerSuccessAction);
+      const result = authReducer(initialAuthState, registerSuccessAction);
 
       expect(result).toEqual({
-        ...authInitialState,
+        ...initialAuthState,
         user,
       });
     });
@@ -46,10 +54,10 @@ describe("User Reducer", () => {
         payload: errorMessages,
       };
 
-      const result = authReducer(authInitialState, registerFailedAction);
+      const result = authReducer(initialAuthState, registerFailedAction);
 
       expect(result).toEqual({
-        ...authInitialState,
+        ...initialAuthState,
         error: true,
         errorMessages,
       });
@@ -62,10 +70,10 @@ describe("User Reducer", () => {
         type: types.LOGIN_REQUEST,
       };
 
-      const result = authReducer(authInitialState, loginRequestAction);
+      const result = authReducer(initialAuthState, loginRequestAction);
 
       expect(result).toEqual({
-        ...authInitialState,
+        ...initialAuthState,
         requestInProgress: true,
       });
     });
@@ -84,10 +92,10 @@ describe("User Reducer", () => {
         payload: user,
       };
 
-      const result = authReducer(authInitialState, loginSuccessAction);
+      const result = authReducer(initialAuthState, loginSuccessAction);
 
       expect(result).toEqual({
-        ...authInitialState,
+        ...initialAuthState,
         user,
       });
     });
@@ -100,10 +108,10 @@ describe("User Reducer", () => {
         payload: errorMessages,
       };
 
-      const result = authReducer(authInitialState, loginFailedAction);
+      const result = authReducer(initialAuthState, loginFailedAction);
 
       expect(result).toEqual({
-        ...authInitialState,
+        ...initialAuthState,
         error: true,
         errorMessages,
       });
@@ -116,10 +124,10 @@ describe("User Reducer", () => {
         type: types.LOGOUT_REQUEST,
       };
 
-      const result = authReducer(authInitialState, logoutRequestAction);
+      const result = authReducer(initialAuthState, logoutRequestAction);
 
       expect(result).toEqual({
-        ...authInitialState,
+        ...initialAuthState,
         requestInProgress: true,
       });
     });
@@ -136,7 +144,7 @@ describe("User Reducer", () => {
       };
 
       const loggedInState = {
-        ...authInitialState,
+        ...initialAuthState,
         user,
       };
 
@@ -159,10 +167,10 @@ describe("User Reducer", () => {
         type: types.LOGOUT_SUCCESS,
       };
 
-      const result = authReducer(authInitialState, logoutFailedAction);
+      const result = authReducer(initialAuthState, logoutFailedAction);
 
       expect(result).toEqual({
-        ...authInitialState,
+        ...initialAuthState,
       });
     });
   });

@@ -15,7 +15,7 @@ import {
 import Router from "next/router";
 
 import rootReducer, { RootState } from "./reducers";
-import { authInitialState } from "./reducers/auth";
+import { initialAuthState } from "./reducers/auth";
 import { AppContext } from "next/app";
 
 const routerMiddleware = createRouterMiddleware();
@@ -31,7 +31,7 @@ export const initialState = () => {
   if (asPath) {
     const url = format({ pathname, query });
     initialState = {
-      auth: authInitialState,
+      auth: initialAuthState,
       router: initialRouterState(url, asPath),
     };
   }
@@ -39,6 +39,7 @@ export const initialState = () => {
 };
 
 const reducer: Reducer<RootState, AnyAction> = (state, action) => {
+  console.log(action);
   if (action.type === HYDRATE) {
     const nextState = {
       ...state, // use previous state
@@ -67,7 +68,7 @@ export const initStore: MakeStore<RootState> = (context: Context) => {
   if (asPath) {
     const url = format({ pathname, query });
     initialState = {
-      auth: authInitialState,
+      auth: initialAuthState,
       router: initialRouterState(url, asPath),
     };
   }

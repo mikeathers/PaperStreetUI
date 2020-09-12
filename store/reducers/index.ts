@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import { routerReducer } from "connected-next-router";
-import auth from "./auth";
-import { IAuthState } from "../reducers/auth";
+import AuthReducer, { IAuthState } from "./auth";
 
 export type LocationState = {
   href: string;
@@ -21,6 +20,8 @@ export type RootState = {
   router: RouterState;
   auth: IAuthState;
 };
+
+const auth = AuthReducer.reduce;
 
 export default combineReducers({
   auth,

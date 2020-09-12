@@ -1,5 +1,5 @@
-import * as types from "../../types";
-import { UserActionTypes } from "../../types";
+import * as types from "../../types/auth";
+import { UserActionTypes } from "../../types/auth";
 import { IUser, IUserLoginValues } from "models/user";
 import {
   ErrorHandlerService,
@@ -20,12 +20,10 @@ const loginSuccessful = (user: IUser): UserActionTypes => ({
   payload: user,
 });
 
-const loginFailed = (errorMessages: Array<string>): UserActionTypes => {
-  return {
-    type: types.LOGIN_FAILED,
-    payload: errorMessages,
-  };
-};
+const loginFailed = (errorMessages: Array<string>): UserActionTypes => ({
+  type: types.LOGIN_FAILED,
+  payload: errorMessages,
+});
 
 const login = async (loginDetails: IUserLoginValues) => {
   _dispatch(loginRequest());
