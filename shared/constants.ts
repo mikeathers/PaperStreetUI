@@ -7,6 +7,8 @@ export const errorMessages = Object.freeze({
   NOT_FOUND_ERROR_MESSAGE: 'The request resulted in a 404 error',
   CATASTROPHIC_ERROR_MESSAGE:
     'A catastrophic error has occured, please contact the system admin',
+  LOGOUT_FAILED:
+    'An error has occured whilst trying to log you out. Please try again or contact the system administrator',
 });
 
 export const routes = Object.freeze({

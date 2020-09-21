@@ -1,5 +1,4 @@
 import { IUser } from 'models';
-import { AxiosResponse } from 'axios';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -29,17 +28,14 @@ interface LoginFailed {
 
 interface LogoutRequest {
   type: typeof LOGOUT_REQUEST;
-  payload: null;
 }
 
 interface LogoutSuccess {
   type: typeof LOGOUT_SUCCESS;
-  payload: AxiosResponse;
 }
 
 interface LogoutFailed {
   type: typeof LOGOUT_FAILED;
-  payload: Error;
 }
 
 interface RegisterRequest {
